@@ -384,10 +384,50 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function sendData(text, appid) {
         const vcn = dom.voiceSelect.value;
-        const businessArgs = { tts: { vcn, speed: parseInt(dom.speedSlider.value), volume: parseInt(dom.volumeSlider.value), pitch: parseInt(dom.pitchSlider.value), audio: { encoding: dom.encodingSelect.value, sample_rate: parseInt(dom.sampleRateSelect.value), channels: 1, bit_depth: 16, frame_size: 0 } } };
-        if (!vcn.startsWith('x5_')) { businessArgs.tts.oral = { oral_level: dom.oralLevelSelect.value, spark_assist: dom.sparkAssistCheck.checked ? 1:0, remain: dom.remainCheck.checked ? 1:0 }; }
-        const dataPayload = { text: { encoding: "utf8", compress: "raw", format: "plain", status: 2, text: btoa(unescape(encodeURIComponent(text))) } };
-        const params = { header: { app_id: appid, status: 2 }, parameter: businessArgs, payload: dataPayload };
+        
+        // 初始化 businessArgs，先只包含 tts
+        const businessArgs = {
+            tts: {
+                vcn,
+                speed: parseInt(dom.speedSlider.value),
+                volume: parseInt(dom.volumeSlider.value),
+                pitch: parseInt(dom.pitchSlider.value),
+                audio: {
+                    encoding: dom.encodingSelect.value,
+                    sample_rate: parseInt(dom.sampleRateSelect.value),
+                    channels: 1,
+                    bit_depth: 16,
+                    frame_size: 0
+                }
+            }
+        };
+    
+        // 如果不是 x5 系列发音人，再添加 oral 对象，使其与 tts 平级
+        if (!vcn.startsWith('x5_')) {
+            // [核心修改]：从 businessArgs.tts.oral 改为 businessArgs.oral
+            businessArgs.oral = {
+                oral_level: dom.oralLevelSelect.value,
+                spark_assist: dom.sparkAssistCheck.checked ? 1 : 0,
+                remain: dom.remainCheck.checked ? 1 : 0
+            };
+        }
+    
+        const dataPayload = {
+            text: {
+                encoding: "utf8",
+                compress: "raw",
+                format: "plain",
+                status: 2,
+                text: btoa(unescape(encodeURIComponent(text)))
+            }
+        };
+    
+        const params = {
+            header: { app_id: appid, status: 2 },
+            parameter: businessArgs,
+            payload: dataPayload
+        };
+        
         websocket.send(JSON.stringify(params));
     }
     
