@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>批量音频处理工具</title>
+    <!-- 复用之前的样式文件 -->
+    <link rel="stylesheet" href="batch.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>批量音频压缩与处理</h1>
+            <div class="header-links">
+                <!-- 提供返回主页的链接 -->
+                <a href="index.html" class="header-link">返回语音合成 »</a>
+                <button id="theme-toggle-btn">切换主题</button>
+            </div>
+        </header>
+
+        <section class="card">
+            <h2>步骤 1: 上传音频文件</h2>
+            <p>点击下方按钮选择一个或多个音频文件。推荐上传 WAV 格式以获得最佳处理质量。</p>
+            <input type="file" id="file-input" multiple accept="audio/*" class="file-input">
+        </section>
+
+        <section class="card" id="file-list-card" style="display: none;">
+            <h2>文件列表</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>文件名</th>
+                            <th>原始大小</th>
+                            <th>状态</th>
+                            <th>处理后大小</th>
+                        </tr>
+                    </thead>
+                    <tbody id="file-list-body">
+                        <!-- 文件列表将由JS动态生成 -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="card" id="settings-card" style="display: none;">
+            <h2>步骤 2: 设置处理参数</h2>
+            <div class="form-grid params-grid">
+                <label for="export-format">导出格式:</label>
+                <select id="export-format">
+                    <option value="mp3">MP3 (压缩)</option>
+                    <option value="wav">WAV (无损)</option>
+                </select>
+                <label for="mp3-bitrate" id="mp3-bitrate-label">MP3 质量 (比特率):</label>
+                <select id="mp3-bitrate">
+                    <option value="32">32 kbps (低/最小文件)</option>
+                    <option value="64">64 kbps (中)</option>
+                    <option value="128" selected>128 kbps (高/推荐)</option>
+                    <option value="192">192 kbps (极高)</option>
+                </select>
+                <label for="post-volume">后期音量:</label>
+                <div>
+                    <input type="range" id="post-volume" min="0" max="200" value="100">
+                    <span id="post-volume-label">100%</span>
+                </div>
+                <label for="fade-in">淡入时长 (秒):</label>
+                <input type="number" id="fade-in" min="0" step="0.1" value="0" class="short-input">
+                <label for="fade-out">淡出时长 (秒):</label>
+                <input type="number" id="fade-out" min="0" step="0.1" value="0" class="short-input">
+            </div>
+        </section>
+
+        <section class="card" id="action-card" style="display: none;">
+            <h2>步骤 3: 开始处理与下载</h2>
+            <div class="action-bar">
+                <button id="start-batch-process-btn" class="accent-btn" disabled>开始批量处理</button>
+                <button id="download-zip-btn" disabled>下载全部 (ZIP)</button>
+            </div>
+            <div class="progress-container">
+                <label for="batch-progress-bar">总进度:</label>
+                <progress id="batch-progress-bar" value="0" max="100" style="display: none;"></progress>
+                <span id="batch-status-label"></span>
+            </div>
+        </section>
+
+        <footer>
+            <p>所有音频处理均在您的浏览器本地完成，文件不会上传至任何服务器。</p>
+        </footer>
+    </div>
+
+    <!-- 引入 LAME MP3 编码器库 -->
+    <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
+    <!-- [新增] 引入 JSZip 库用于打包 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- 引入新的JS逻辑文件 -->
+    <script src="batch.js"></script>
+</body>
+</html>
