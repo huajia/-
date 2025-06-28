@@ -1,0 +1,367 @@
+/* --- 基础与变量 --- */
+:root {
+    --bg-color: #f0f2f5;
+    --card-bg-color: #ffffff;
+    --text-color: #1c1e21;
+    --secondary-text-color: #606770;
+    --border-color: #dddfe2;
+    --accent-color: #1877f2;
+    --accent-hover-color: #166fe5;
+    --accent-text-color: #ffffff;
+    --success-color: #31a24c;
+    --error-color: #fa383e;
+    --info-color: #1877f2;
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "Courier New", Courier, monospace;
+}
+
+body.dark-mode {
+    --bg-color: #18191a;
+    --card-bg-color: #242526;
+    --text-color: #e4e6eb;
+    --secondary-text-color: #b0b3b8;
+    --border-color: #3e4042;
+    --accent-color: #2d88ff;
+    --accent-hover-color: #4a9aff;
+}
+
+/* --- 全局样式 --- */
+body {
+    margin: 0;
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 16px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+h1, h2 {
+    color: var(--text-color);
+    margin-top: 0;
+}
+
+h1 {
+    font-size: 1.8rem;
+}
+
+h2 {
+    font-size: 1.2rem;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 15px;
+}
+
+/* --- 组件样式 --- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: var(--card-bg-color);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 15px;
+    align-items: center;
+}
+
+.params-grid, .format-grid {
+    grid-template-columns: 150px 1fr;
+}
+
+
+input[type="text"], input[type="password"], select, textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+    font-family: var(--font-family);
+}
+
+.char-counter {
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--secondary-text-color);
+    margin-top: 5px;
+}
+.char-counter.error {
+    color: var(--error-color);
+    font-weight: bold;
+}
+
+.help-text {
+    font-size: 0.85rem;
+    color: var(--secondary-text-color);
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+input[type="range"] {
+    width: calc(100% - 40px);
+    vertical-align: middle;
+}
+
+.form-grid > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+button {
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+button:hover {
+    background-color: var(--bg-color);
+}
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.accent-btn {
+    background-color: var(--accent-color);
+    color: var(--accent-text-color);
+    border-color: var(--accent-color);
+    font-weight: bold;
+}
+.accent-btn:hover {
+    background-color: var(--accent-hover-color);
+    border-color: var(--accent-hover-color);
+}
+
+.action-bar {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.player-controls {
+    display: flex;
+    gap: 10px;
+}
+
+/* --- 开关 Switch --- */
+.switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; }
+input:checked + .slider { background-color: var(--accent-color); }
+input:focus + .slider { box-shadow: 0 0 1px var(--accent-color); }
+input:checked + .slider:before { transform: translateX(20px); }
+.slider.round { border-radius: 34px; }
+.slider.round:before { border-radius: 50%; }
+
+
+/* --- 状态区域 --- */
+.status-output {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 10px;
+    height: 150px;
+    overflow-y: auto;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.status-output div {
+    margin-bottom: 5px;
+}
+.status-output .error { color: var(--error-color); }
+.status-output .success { color: var(--success-color); }
+.status-output .info { color: var(--info-color); }
+
+progress {
+    width: 100%;
+    margin-top: 10px;
+}
+
+footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--secondary-text-color);
+    margin-top: 20px;
+}
+
+/* --- 响应式布局 --- */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    .params-grid, .format-grid {
+        grid-template-columns: 1fr;
+    }
+    .action-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .player-controls {
+        justify-content: space-between;
+    }
+}
+input.short-input {
+    width: 100px; /* 或者你认为合适的宽度 */
+}
+
+#processing-status {
+    color: var(--secondary-text-color);
+    margin-left: 15px;
+    font-size: 0.9rem;
+}
+
+.dark-mode .status-output .info{ color: #25ff59;}
+/* [新增] 富文本编辑器相关样式 */
+.editor-toolbar {
+    background-color: var(--bg-color);
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.toolbar-help {
+    font-size: 0.8rem;
+    color: var(--secondary-text-color);
+    margin-left: auto;
+}
+.content-editor {
+    min-height: 120px;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 0 0 6px 6px;
+    background-color: var(--card-bg-color); /* 编辑器内部用卡片背景色 */
+    color: var(--text-color);
+    font-size: 1rem;
+    line-height: 1.6;
+    resize: vertical;
+    overflow-y: auto;
+    font-family: var(--font-family);
+}
+.content-editor:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
+}
+
+/* [新增] 语音标签样式 */
+.tts-tag {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: var(--accent-text-color);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    margin: 0 2px;
+    cursor: pointer;
+    user-select: none; /* 防止选中文本 */
+    white-space: nowrap;
+}
+.tts-tag:hover {
+    opacity: 0.85;
+}
+.tts-tag .delete-tag {
+    margin-left: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.tts-tag .delete-tag:hover {
+    color: var(--error-color);
+}
+
+/* [新增] 模态框样式 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-content {
+    background-color: var(--card-bg-color);
+    padding: 25px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.modal-content h3 {
+    margin-top: 0;
+}
+.modal-content label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+.modal-content p {
+    margin-top: 0;
+}
+.modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.char-modified {
+    color: var(--accent-color); /* 使用主题的强调色 */
+    font-weight: bold;
+}
+.audio-info-box {
+    margin-left: 20px;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--bg-color);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.audio-info-box span {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+}
